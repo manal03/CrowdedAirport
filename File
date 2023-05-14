@@ -1,0 +1,48 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Import the crowded airport dataset
+df = pd.read_csv('Airports.csv')
+df.head()
+
+# Display the number of passengers for each airport
+fig, ax = plt.subplots(figsize=(10,10))
+df_sorted = df.sort_values('Passengers')
+plt.bar(df_sorted['Country'], df_sorted['Passengers'], color='pink')
+plt.title('Number of Passengers by Airport')
+plt.xlabel('Country')
+plt.xticks(rotation='vertical')
+plt.ylabel('Passengers')
+plt.show()
+
+# Sort the DataFrame by 'Passengers' column in ascending order
+df_sorted = df.sort_values(by='Passengers')
+
+# Get the 5 least crowded airports
+df_least_crowded = df_sorted.head(5)
+
+# Display a bar chart of the least crowded airports
+plt.bar(df_least_crowded['Airport'], df_least_crowded['Passengers'])
+plt.title('Number of Passengers by Airport (5 Least Crowded)', fontsize=16)
+plt.ylabel('Passengers', fontsize=4)
+plt.xticks(rotation='vertical')
+plt.xlabel('Airport', fontsize=4)
+
+
+plt.show()
+
+import pandas as pd
+import numpy as np
+
+# Load data from CSV file
+df = pd.read_csv('Airports.csv')
+
+# Calculate the average using NumPy
+avg = np.mean(df['Passengers'])
+
+# Plot the data and the average using Matplotlib
+plt.scatter(df['Country'], df['Passengers'], label='Passengers')
+plt.axhline(avg, color='red', linestyle='--', label='Average')
+plt.xticks(rotation='vertical')
+plt.legend()
+plt.show()
