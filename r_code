@@ -1,4 +1,4 @@
 Airports <- read.csv("Airports.csv")
 lByYear <- Airports %>% group_by(Year) %>% select(Airport, Passengers, Year) %>% top_n(-1, wt=Passengers)
 mByYear <- Airports %>% group_by(Year) %>% select(Airport, Passengers, Year) %>% top_n(1, wt=Passengers)
-ggplot(mByYear, aes(x = Airport,y = Passengers))+geom_point()
+ggplot(mByYear, aes(x = Country, y = Passengers, col="pink")) + geom_point(label_both(TRUE)) + labs(x="Country", y = "Passengers", title = "Least Visits by Year") + geom_text(aes(label=Year)) + theme(axis.text.x = element_text(vjust=-2))+ scale_y_continuous(breaks = seq(40000000, 110531300, by=10000000 ))
