@@ -1,1 +1,4 @@
-lByYear <- Airports %>% group_by(Year) %>% top_n(-1, wt=Passengers)
+Airports <- read.csv("Airports.csv")
+lByYear <- Airports %>% group_by(Year) %>% select(Airport, Passengers, Year) %>% top_n(-1, wt=Passengers)
+mByYear <- Airports %>% group_by(Year) %>% select(Airport, Passengers, Year) %>% top_n(1, wt=Passengers)
+ggplot(mByYear, aes(x = Airport,y = Passengers))+geom_point()
