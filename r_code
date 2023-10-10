@@ -1,4 +1,31 @@
 Airports <- read.csv("Airports.csv")
 lByYear <- Airports %>% group_by(Year) %>% select(Airport, Passengers, Year) %>% top_n(-1, wt=Passengers)
 mByYear <- Airports %>% group_by(Year) %>% select(Airport, Passengers, Year) %>% top_n(1, wt=Passengers)
-ggplot(mByYear, aes(x = Country, y = Passengers, colour=Year)) + geom_point() + labs(x="Country", y = "Passengers", title = "Least Visits by Year")  + theme(axis.text.x = element_text(vjust=-2))+ scale_y_continuous(breaks = seq(40000000, 110531300, by=10000000 ))
+#Acronyms for the airports if needed
+mByYear <- Airports %>%
+    group_by(Year) %>%
+    top_n(1, wt = Passengers) %>%
+    mutate(Airport = abbreviate(Airport, minlength = 1))
+
+#Most visits by country
+ggplot(mByYear, aes(x = Country, y = Passengers, colour=Year)) + geom_point(size = 4)+ labs(x="Country", y = "Passengers", title = "Most Visits by Year")  + theme(axis.text.x = element_text(vjust=-2))+ scale_y_continuous(breaks = seq(40000000, 110531300, by=10000000 ))
+#Most visits by year
+ggplot(mByYear, aes(x = Year, y = Passengers, colour=Year)) + geom_point(size = 4)+ labs(x="Country", y = "Passengers", title = "Least Visits by Year")  + theme(axis.text.x = element_text(vjust=-2))+ scale_y_continuous(breaks = seq(15000000, 45000000, by=10000000 ))
+
+#Least visits by Airport/Country
+ggplot(lByYear, aes(x = Country, y = Passengers, colour=Year)) + geom_point(size = 4)+ labs(x="Country", y = "Passengers", title = "Least Visits by Year")  + theme(axis.text.x = element_text(vjust=-2))+ scale_y_continuous(breaks = seq(15000000, 45000000, by=10000000 ))
+#Least Visits By Year
+ggplot(lByYear, aes(x = Year, y = Passengers, colour=Year)) + geom_point(size = 4)+ labs(x="Country", y = "Passengers", title = "Least Visits by Year")  + theme(axis.text.x = element_text(vjust=-2))+ scale_y_continuous(breaks = seq(15000000, 45000000, by=10000000 ))
+
+#Normal Distribution for each year(Shapiro's Test)
+shapiroResu <- by(Airports$Passengers, Airports$Year, shapiro.test)
+shapiroResu
+#P-values for all are below 0.05, therefore the null hypothesis is rejected that they are under the normal distribution 
+
+#T Test for the first 5 values in 2020 
+t.test(1:5)
+#95th confidence interval is found, p-value is above 0.05. 
+
+
+
+
